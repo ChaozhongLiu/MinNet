@@ -18,12 +18,12 @@ from sklearn.preprocessing import normalize
 
 
 class dataset(object):
-    def __init__(self, mod1, mod2, batch_number=250, clique_size=100, validation=True):
+    def __init__(self, mod1, mod2, batch_number=250, C=3.0, validation=True):
         super(dataset, self).__init__()
         self.mod1 = mod1
         self.mod2 = mod2
         self.batch_number = batch_number
-        self.clique_size = clique_size
+        self.C = C
         self.validation = validation
         self.init_dataset()
 
@@ -188,8 +188,8 @@ class dataset(object):
         self._use_domain_mod1 = self.input_mod1.obsp['distance'][np.arange(self.num_train),dis_index_mod1]
         self._use_domain_mod2 = self.input_mod1.obsp['distance'][np.arange(self.num_train),dis_index_mod2]
         
-        ct_diff_index_mod1 = 3.0 * (self.input_mod1.obs['cell_type'].to_numpy() != self.input_mod1.obs['cell_type'][dis_index_mod1].to_numpy())
-        ct_diff_index_mod2 = 3.0 * (self.input_mod1.obs['cell_type'].to_numpy() != self.input_mod1.obs['cell_type'][dis_index_mod2].to_numpy())
+        ct_diff_index_mod1 = self.C * (self.input_mod1.obs['cell_type'].to_numpy() != self.input_mod1.obs['cell_type'][dis_index_mod1].to_numpy())
+        ct_diff_index_mod2 = self.C * (self.input_mod1.obs['cell_type'].to_numpy() != self.input_mod1.obs['cell_type'][dis_index_mod2].to_numpy())
         
         self._use_domain_mod1 += ct_diff_index_mod1
         self._use_domain_mod2 += ct_diff_index_mod2
@@ -244,8 +244,8 @@ class dataset(object):
             self._use_domain_mod1_val = self.input_mod1_val.obsp['distance'][np.arange(self.num_val),dis_index_mod1]
             self._use_domain_mod2_val = self.input_mod1_val.obsp['distance'][np.arange(self.num_val),dis_index_mod2]
             
-            ct_diff_index_mod1 = 3.0 * (self.input_mod1_val.obs['cell_type'].to_numpy() != self.input_mod1_val.obs['cell_type'][dis_index_mod1].to_numpy())
-            ct_diff_index_mod2 = 3.0 * (self.input_mod1_val.obs['cell_type'].to_numpy() != self.input_mod1_val.obs['cell_type'][dis_index_mod2].to_numpy())
+            ct_diff_index_mod1 = self.C * (self.input_mod1_val.obs['cell_type'].to_numpy() != self.input_mod1_val.obs['cell_type'][dis_index_mod1].to_numpy())
+            ct_diff_index_mod2 = self.C * (self.input_mod1_val.obs['cell_type'].to_numpy() != self.input_mod1_val.obs['cell_type'][dis_index_mod2].to_numpy())
 
             self._use_domain_mod1_val += ct_diff_index_mod1
             self._use_domain_mod2_val += ct_diff_index_mod2
@@ -255,8 +255,8 @@ class dataset(object):
     
     def train_data(self, loss=0.0, intervals=2, epoch=0, reorder=True):
 
-            print('Generating siamese pairs...')
-            self.prepare_siamese()
+        print('Generating siamese pairs...')
+        self.prepare_siamese()
             
         if reorder:
             rand_index = np.random.choice(self.num_train, self.num_train, replace=False)
