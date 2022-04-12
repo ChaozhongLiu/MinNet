@@ -24,7 +24,7 @@ For results in manuscript figures, we kept only batches **s1d1, s1s3, s2d1, s2d4
 
 
 ## Hyper-paramters
-The training process is quite standardized for BMMC situations. But in case users want to train their own model on a specific target tissue, hyper-parameters to be tuned are listed below including **Margin, weights of contrastive loss, learning rate and cell type margin constant**.
+The training process is quite standardized for BMMC situations. But in case users want to train their own model on a specific target tissue, hyper-parameters to be tuned are listed below including **Margin, weights of contrastive loss, learning rate** and **cell type margin constant**.
 
 ### Margin M
 M controls the general range of all margin values. The margin value between cell i and cell j = M * (C + mij).
@@ -37,3 +37,7 @@ The training loss = Classification loss + &lambda; * Contrastive loss.
 Adam optimizer is used in the model training process. Learning rate &gamma; controls how fast weights are updated according to gradients.
 
 ### Cell type margin constant C
+C defines the minimum distance between two cells from different cell types. A recommend tuning range is \[0-5\]
+
+
+
