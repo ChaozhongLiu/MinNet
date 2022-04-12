@@ -30,7 +30,11 @@ The training process is quite standardized for BMMC situations. But in case user
 M controls the general range of all margin values. The margin value between cell i and cell j = M * (3 + mij).
 Roughly, all margin values range between 0 and 4*M.
 
-### weights of contrastive loss &lambda
+### weights of contrastive loss &lambda;
+The training loss = Classification loss + &lambda; * Contrastive loss.
+
+### learning rate &gamma;
+Adam optimizer is used in the model training process. Learning rate &gamma; controls how fast weights are updated according to gradients.
 
 
 
