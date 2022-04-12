@@ -27,6 +27,10 @@ For results in manuscript figures, we kept only batches **s1d1, s1s3, s2d1, s2d4
 The training process is quite standardized for BMMC situations. But in case users want to train their own model on a specific target tissue, hyper-parameters to be tuned are listed below including **Margin, weights of contrastive loss, and learning rate**.
 
 ### Margin M
-M controls the general range of all margin values. The margin between cell i and cell j m = M * (3 + mij) 
+M controls the general range of all margin values. The margin value between cell i and cell j = M * (3 + mij).
+Roughly, all margin values range between 0 and 4*M.
+
+### weights of contrastive loss &lambda
+
 
 
