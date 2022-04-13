@@ -9,7 +9,7 @@ This directory is organized by datasets.
 * To save space, all datasets and raw results were deleted.
 * Below are specific instructions on how to get the data and get the raw results.
 
-FYI: during development, our algorithm used the temperory name 'SiaNN', that why in all codes SiaNN is seen.
+FYI: during development, our algorithm used the temperory name 'SiaNN', that's why in all codes SiaNN is seen.
 
 ## Reproduction Pipeline
 All the testing evaluations follows the same pipeline:
@@ -18,15 +18,23 @@ All the testing evaluations follows the same pipeline:
 * Run `dataset/evaluation.ipynb` to get the summary statistics in `dataset/seurat/results/`
 * Finally, plots were drawn by running benchmark_plots.R using data in `dataset/seurat/results/`.
 
-### Training data processing
-* Run the `1_training_data_processing.ipynb` in Jupyter Notebook.
-* It will filtering features and cells needed in our previous training.
-* It will generate the KNN graph for contrastive loss.
-* Save the processed H5AD as either `10X/data/10X_Multiome_GEX|ATAC.training.h5ad` or `cite/data/Cite_GEX|ADT.training.h5ad`
+## Datasets Downloading
+### 10X Multiome datasets and Cite-seq datasets of BMMC
+Datasets names as BMMC_data, BMMC_test, Cite_data, and Cite_data_2 are from the [NeurIPS 2021 Competition](https://openproblems.bio/neurips_2021/).
+The pre-processed H5AD file can be downloaded at [GSE194122](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE194122).
+The batch spliting is:
+* BMMC_data: s1d2 and s3d7
+* BMMC_test: s4d1, s4d
+* Cite_data: s1d2 and s3d7
+* Cite_data_2: s4d1, s4d
 
-### Training
-* Run the `2_training_main.ipynb` in Jupyter Notebook.
-* It will perform the training process with default hyper-parameter (the parameter we used).
-* Trained weights are saved in `ckpts/`
-* During training, histogram of distances between contrastive pairs are showed every 5 epochs.
-* Details are written in the jupyter notebook.
+
+
+
+
+
+
+
+
+
+
