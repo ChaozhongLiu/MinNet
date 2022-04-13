@@ -7,13 +7,15 @@ This directory is organized by datasets.
 * Algorithms' results are all saved in `dataset/seurat/results/raw/`
 * After running all algorithms, summary evaluation was done using `evaluation.ipynb`. Results were saved in `dataset/seurat/results/`
 * To save space, all datasets and raw results were deleted.
-* Specific instructions on how to get the data and get the raw results are below.
+* Finally, plots were drawn by running benchmark_plots.R using data in `dataset/seurat/results/`.
+* Below are specific instructions on how to get the data and get the raw results.
 
 
-### Preparing training dataset
-* The training dataset we used to train model is from [GSE194122](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE194122) processed H5AD file.
-For results in manuscript figures, we kept only batches **s1d1, s1s3, s2d1, s2d4, s2d5, s3d3, s3d6, and s3d10**.
-* Save the filtered H5AD file as either `10X/data/10X_Multiome_GEX|ATAC.filt.h5ad` or `cite/data/Cite_GEX|ADT.filt.h5ad`
+## Reproduction Pipeline
+All the 4 testing datasets are following the same pipeline:
+* Data downloading and pre-processing
+* Run all algorithms in the order of SiaNN - Seurat - others
+* Run `dataset/evaluation.ipynb` to get the summary statistics in `dataset/seurat/results/`
 
 ### Training data processing
 * Run the `1_training_data_processing.ipynb` in Jupyter Notebook.
