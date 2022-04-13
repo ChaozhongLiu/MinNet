@@ -1,5 +1,5 @@
 # MinNet Benchmarking
-Here is all the codes used for reproducing manuscript Figure 2 and the supplementary figures related to it.
+Here is the codes for reproducing manuscript Figure 2 and the supplementary figures related to it.
 
 ## Directory Structure
 This directory is organized by datasets.
