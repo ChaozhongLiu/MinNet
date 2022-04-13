@@ -33,7 +33,7 @@ The batch spliting is:
 The dataset can be downloaded at 10X Genomics website [here](https://support.10xgenomics.com/single-cell-multiome-atac-gex/datasets/1.0.0/pbmc_granulocyte_sorted_10k)
 
 ### 10X Multiome Human brain dataset
-The dataset can be downloaded at 10X Genomics website [here][https://www.10xgenomics.com/resources/datasets/frozen-human-healthy-brain-tissue-3-k-1-standard-2-0-0)
+The dataset can be downloaded at 10X Genomics website [here](https://www.10xgenomics.com/resources/datasets/frozen-human-healthy-brain-tissue-3-k-1-standard-2-0-0)
 
 
 
