@@ -23,13 +23,17 @@ All the testing evaluations follows the same pipeline:
 Datasets names as BMMC_data, BMMC_test, Cite_data, and Cite_data_2 are from the [NeurIPS 2021 Competition](https://openproblems.bio/neurips_2021/).
 The pre-processed H5AD file can be downloaded at [GSE194122](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE194122).
 The batch spliting is:
-* BMMC_data: s1d2 and s3d7
-* BMMC_test: s4d1, s4d
-* Cite_data: s1d2 and s3d7
-* Cite_data_2: s4d1, s4d
+* BMMC_data: `s1d2 and s3d7`
+* BMMC_test: `s4d1, s4d8, s4d9`
+* Cite_data: `s1d2 and s3d7`
+* Cite_data_2: `s4d1, s4d8, s4d9`
 
 
+### 10X Multiome PBMC dataset
+The dataset can be downloaded at 10X Genomics website [here](https://support.10xgenomics.com/single-cell-multiome-atac-gex/datasets/1.0.0/pbmc_granulocyte_sorted_10k
 
+### 10X Multiome Human brain dataset
+The dataset can be downloaded at 10X Genomics website [here][https://www.10xgenomics.com/resources/datasets/frozen-human-healthy-brain-tissue-3-k-1-standard-2-0-0
 
 
 
