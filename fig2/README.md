@@ -7,15 +7,16 @@ This directory is organized by datasets.
 * Algorithms' results are all saved in `dataset/seurat/results/raw/`
 * After running all algorithms, summary evaluation was done using `evaluation.ipynb`. Results were saved in `dataset/seurat/results/`
 * To save space, all datasets and raw results were deleted.
-* Finally, plots were drawn by running benchmark_plots.R using data in `dataset/seurat/results/`.
 * Below are specific instructions on how to get the data and get the raw results.
 
+FYI: during development, our algorithm used the temperory name 'SiaNN', that why in all codes SiaNN is seen.
 
 ## Reproduction Pipeline
-All the 4 testing datasets are following the same pipeline:
+All the testing evaluations follows the same pipeline:
 * Data downloading and pre-processing
-* Run all algorithms in the order of SiaNN - Seurat - others
+* Run all algorithms in the order of MinNet - Seurat - others
 * Run `dataset/evaluation.ipynb` to get the summary statistics in `dataset/seurat/results/`
+* Finally, plots were drawn by running benchmark_plots.R using data in `dataset/seurat/results/`.
 
 ### Training data processing
 * Run the `1_training_data_processing.ipynb` in Jupyter Notebook.
