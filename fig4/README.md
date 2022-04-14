@@ -15,6 +15,6 @@ The pcHi-C evidence is download from https://ars.els-cdn.com/content/image/1-s2.
 ## Evaluation
 * Run `PBMC_smooth_summary.ipynb` to make sparsity summary, correlation between genes and 2kb nearby peaks summary.
 * Run `PBMC_smooth_pcHi-C.ipynb` to validate correlation between genes and 150kb nearby peaks with pcHi-C evidence.
-* Run Plots.R for summary plots, genome_track.R for example genome track visualization.
+* Run `Plots.R` for summary plots, `genome_track.R` for example genome track visualization.
 
 
