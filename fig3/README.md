@@ -1,13 +1,13 @@
-# MinNet Benchmarking
-Here is the codes for reproducing manuscript Figure 2 and the supplementary figures related to it.
+# MinNet Batch effect removal
+Here is the codes for reproducing manuscript Figure 3 and the supplementary figures related to it.
 
 ## Directory Structure
-This directory is organized by datasets.
-* Within each dataset's folder, codes are organized by algorithms, e.g., `dataset/seurat/`
+This directory is organized by algorithms.
+* `data/data_preprocessing.ipynb` is for testing data generation.
 * Algorithms' results are all saved in `dataset/seurat/results/raw/`
 * After running all algorithms, summary evaluation was done using `evaluation.ipynb`. Results were saved in `dataset/seurat/results/`
 * To save space, all datasets and raw results were deleted.
-* Below are specific instructions on how to get the data and get the raw results.
+* Below are specific explanations on how testing cases were setted and evaluated.
 
 **FYI**: during development, our algorithm used the temperory name 'SiaNN', that's why in all codes SiaNN is seen.
 
