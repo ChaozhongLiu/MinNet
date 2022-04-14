@@ -25,8 +25,8 @@ This is the testing case 1 in fig2 dataset, so no extra implementation is needed
 ### Situation to integrate scRNA-seq and scATAC-seq from different batches
 The 2 cases simulate the real problem when researchers get their single-cell from different samples, or even different resources. The ability of an integration algotrithm to distinguish between batch effect and actual biological variance is essential here.
 
-Case 1: scRNA-seq data from NeurIPS `s3d7` and scATAC-seq from `s4d1`
-Case 2: scRNA-seq data from NeurIPS `s4d1` and scATAC-seq from `s3d7`
+* Case 1: scRNA-seq data from NeurIPS `s3d7` and scATAC-seq from `s4d1`
+* Case 2: scRNA-seq data from NeurIPS `s4d1` and scATAC-seq from `s3d7`
 
 
 ## Algorithm implementation
