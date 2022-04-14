@@ -4,8 +4,8 @@ Here is the codes for reproducing manuscript Figure 3 and the supplementary figu
 ## Directory Structure
 This directory is organized by algorithms.
 * `data/data_preprocessing.ipynb` is for testing data generation.
-* Algorithms' results are all saved in `dataset/seurat/results/raw/`
-* After running all algorithms, summary evaluation was done using `evaluation.ipynb`. Results were saved in `dataset/seurat/results/`
+* Algorithms' results are all saved in `dataset/results/raw/`
+* After running all algorithms, summary evaluation was done using `evaluation.ipynb`. Results were saved in `dataset/results/`
 * To save space, all datasets and raw results were deleted.
 * Below are specific explanations on how testing cases were setted and evaluated.
 
@@ -13,10 +13,10 @@ This directory is organized by algorithms.
 
 ## Reproduction Pipeline
 All the testing evaluations follows the same pipeline:
-* Data downloading and pre-processing
+* Data pre-processing
 * Run all algorithms in the order of MinNet - Seurat - others
-* Run `dataset/evaluation.ipynb` to get the summary statistics in `dataset/seurat/results/`
-* Finally, plots were drawn by running benchmark_plots.R using data in `dataset/seurat/results/`.
+* Run `dataset/evaluation.ipynb` to get the summary statistics in `dataset/results/`
+* Finally, plots were drawn by running batch_removal_plots.R using data in `dataset/results/`.
 
 ## Datasets Downloading
 ### 10X Multiome datasets and Cite-seq datasets of BMMC
