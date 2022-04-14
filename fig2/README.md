@@ -36,8 +36,12 @@ The dataset can be downloaded at 10X Genomics website [here](https://support.10x
 The dataset can be downloaded at 10X Genomics website [here](https://www.10xgenomics.com/resources/datasets/frozen-human-healthy-brain-tissue-3-k-1-standard-2-0-0)
 
 
-
-
+## Algorithm implementation
+1. MinNet: Run the SiaNN.ipynb in `dataset/SiaNN/`
+2. Seurat v3: Run h5ad2rds.R to transfer from python to R. Then run seurat.R followed by after_seurat.ipynb for evaluation metrics.
+3. bindSC: Run bindSC.R, followed by after_bindSC.ipynb.
+4. GLUE: prepare H5AD and graph for GLUE by runing glue_preprocessing.ipynb. Then glue.py 8 times using glue.sh due to the randomness in algorithm.
+5. All versions of Liger: run liger.R and after_liger.py 8 times by the shell scripts in each folder.
 
 
 
