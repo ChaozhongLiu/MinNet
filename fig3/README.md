@@ -30,7 +30,7 @@ The 2 cases simulate the real problem when researchers get their single-cell fro
 
 
 ## Algorithm implementation
-1. MinNet: Run the SiaNN.ipynb in `dataset/SiaNN/`
+1. MinNet: Run the SiaNN.ipynb in `SiaNN/`
 2. Seurat v3: Run h5ad2rds.R to transfer from python to R. Then run seurat.R followed by after_seurat.ipynb for evaluation metrics.
 3. bindSC: Run bindSC.R, followed by after_bindSC.ipynb.
 4. GLUE: prepare H5AD and graph for GLUE by runing glue_preprocessing.ipynb. Then glue.py 8 times using glue.sh due to the randomness in algorithm.
