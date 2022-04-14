@@ -18,22 +18,15 @@ All the testing evaluations follows the same pipeline:
 * Run `dataset/evaluation.ipynb` to get the summary statistics in `dataset/results/`
 * Finally, plots were drawn by running batch_removal_plots.R using data in `dataset/results/`.
 
-## Datasets Downloading
-### 10X Multiome datasets and Cite-seq datasets of BMMC
-Datasets names as BMMC_data, BMMC_test, Cite_data, and Cite_data_2 are from the [NeurIPS 2021 Competition](https://openproblems.bio/neurips_2021/).
-The pre-processed H5AD file can be downloaded at [GSE194122](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE194122).
-The batch spliting is:
-* BMMC_data: `s1d2 and s3d7`
-* BMMC_test: `s4d1, s4d8, s4d9`
-* Cite_data: `s1d2 and s3d7`
-* Cite_data_2: `s4d1, s4d8, s4d9`
+## Testing scenario generation
+### Situation to integrate scRNA-seq and scATAC-seq with the same batches
+This is the testing case 1 in fig2 dataset, so no extra implementation is needed. We just took the results during evaluation and plotting.
 
+### Situation to integrate scRNA-seq and scATAC-seq from different batches
+The 2 cases simulate the real problem when researchers get their single-cell from different samples, or even different resources. The ability of an integration algotrithm to distinguish between batch effect and actual biological variance is essential here.
 
-### 10X Multiome PBMC dataset
-The dataset can be downloaded at 10X Genomics website [here](https://support.10xgenomics.com/single-cell-multiome-atac-gex/datasets/1.0.0/pbmc_granulocyte_sorted_10k)
-
-### 10X Multiome Human brain dataset
-The dataset can be downloaded at 10X Genomics website [here](https://www.10xgenomics.com/resources/datasets/frozen-human-healthy-brain-tissue-3-k-1-standard-2-0-0)
+Case 1: scRNA-seq data from NeurIPS `s3d7` and scATAC-seq from `s4d1`
+Case 2: scRNA-seq data from NeurIPS `s4d1` and scATAC-seq from `s3d7`
 
 
 ## Algorithm implementation
