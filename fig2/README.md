@@ -4,8 +4,8 @@ Here is the codes for reproducing manuscript Figure 2 and the supplementary figu
 ## Directory Structure
 This directory is organized by datasets.
 * Within each dataset's folder, codes are organized by algorithms, e.g., `dataset/seurat/`
-* Algorithms' results are all saved in `dataset/seurat/results/raw/`
-* After running all algorithms, summary evaluation was done using `evaluation.ipynb`. Results were saved in `dataset/seurat/results/`
+* Algorithms' results are all saved in `dataset/results/raw/`
+* After running all algorithms, summary evaluation was done using `evaluation.ipynb`. Results were saved in `dataset/results/`
 * To save space, all datasets and raw results were deleted.
 * Below are specific instructions on how to get the data and get the raw results.
 
@@ -15,8 +15,8 @@ This directory is organized by datasets.
 All the testing evaluations follows the same pipeline:
 * Data downloading and pre-processing
 * Run all algorithms in the order of MinNet - Seurat - others
-* Run `dataset/evaluation.ipynb` to get the summary statistics in `dataset/seurat/results/`
-* Finally, plots were drawn by running benchmark_plots.R using data in `dataset/seurat/results/`.
+* Run `dataset/evaluation.ipynb` to get the summary statistics in `dataset/results/`
+* Finally, plots were drawn by running benchmark_plots.R using data in `dataset/results/`.
 
 ## Datasets Downloading
 ### 10X Multiome datasets and Cite-seq datasets of BMMC
