@@ -1,0 +1,12 @@
+filename,orig.ident,Donor.full,Donor.coarse,Status,Array.type,TSS,fragments
+GSM5285732_28205-0555d0_fragments.tsv.gz,555_1,CSev1 A,CSev1,COVID,PBMC,8,3.6
+GSM5285733_28205-0555d2_fragments.tsv.gz,555_2,CSev1 B,CSev1,COVID,PBMC,8,3.8
+GSM5285734_28205-0556_fragments.tsv.gz,556,CMod1,CMod1,COVID,PBMC,10,3.5
+GSM5285736_28205-0558_fragments.tsv.gz,558,CSev3,CSev3,COVID,PBMC,10,3.2
+GSM5285737_28205-0559_fragments.tsv.gz,559,CMod2,CMod2,COVID,PBMC,8,3.2
+GSM5285747_HIP002_fragments.tsv.gz,HIP002,H1,H1,Healthy,PBMC,10,3.5
+GSM5285752_HIP015_fragments.tsv.gz,HIP015,H2,H2,Healthy,PBMC,7,3.5
+GSM5285748_HIP023_fragments.tsv.gz,HIP023,H3,H3,Healthy,PBMC,8,3.5
+GSM5285750_HIP044_fragments.tsv.gz,HIP044,H5,H5,Healthy,PBMC,7,3.5
+GSM5285751_HIP045_fragments.tsv.gz,HIP045,H6,H6,Healthy,PBMC,10,3.6
+GSM5285749_HIP043_fragments.tsv.gz,HIP043,H4,H4,Healthy,PBMC,10,3.5
