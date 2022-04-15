@@ -27,13 +27,23 @@ The DEGs needed for analysis are provided in `data/`.
 * The final processed data will be saved in `data/JEM_GEX.h5ad and JEM_ATAC.h5ad`.
 
 ### Applying MinNet
-* 
+* Run `SiaNN_BMMCmodel.ipynb` to apply BMMC-trained model and calculate embedding space, label transferring, etc.
+* Run `SiaNN_PBMCmodel.ipynb` to apply PBMC-trained model and calculate embedding space, label transferring, etc.
 
 
+### Cis-regulatory element inferring
+Inferring was done per cell type. We chose NK and Monocytes as the target cell types.
+* Before calculating spearman correlation, run `Smooth_jem_covid.ipynb` for data smoothing.
+* Run `cis_regulatory_inferring.ipynb` to calculate the gene-peak correlation. Summary and mini-bulk data are saved in `cis_infer`.
+
+### Severity-stratified correlation analysis
+We chose NK and Monocytes as the target cell types.
+* Run `cor_by_severity.ipynb` to calculate the gene-peak correlation per severity group.
+* Summary and mini-bulk data are saved in `cor_by_severity`.
 
 ## Evaluation
-* Run `PBMC_smooth_summary.ipynb` to make sparsity summary, correlation between genes and 2kb nearby peaks summary.
-* Run `PBMC_smooth_pcHi-C.ipynb` to validate correlation between genes and 150kb nearby peaks with pcHi-C evidence.
-* Run `Plots.R` for summary plots, `genome_track.R` for example genome track visualization.
+* Run `Plots.R` to plot the UMAP visualization and label transfer accuracy heatmap.
+* Run `Plots_2.R` to plot correlation related analysis.
+* Run `genome_track.R` to plot example case genome track.
 
 
