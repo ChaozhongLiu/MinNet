@@ -1,10 +1,14 @@
-# Model-based smoothing and cis-regulatory element inferring
-Here is the codes for reproducing manuscript Figure 4 and the supplementary figures related to it.
+# Model studay case: COVID-19 singe-cell dataset
+Here is the codes for reproducing manuscript Figure 5 and the supplementary figures related to it.
 
 
 ## Data availability
-The single-cell data used in figure 4 results is the 10X Multiome PBMC dataset from 10X Genomics (same in figure 2).  
-The pcHi-C evidence is download from https://ars.els-cdn.com/content/image/1-s2.0-S0092867416313228-mmc4.zip and https://osf.io/e594p/. After downloading, save the data in a folder called `pcHiC` here.
+The COVID-19 dataset is from the paper [Multi-omic profiling reveals widespread dysregulation of innate immunity and hematopoiesis in COVID-19](https://rupress.org/jem/article/218/8/e20210582/212379/Multi-omic-profiling-reveals-widespread). 
+The pre-processed scRNA-seq data can be downloaded at their [GitHub](https://hosted-matrices-prod.s3-us-west-2.amazonaws.com/Single_cell_atlas_of_peripheral_immune_response_to_SARS_CoV_2_infection-25/Single_cell_atlas_of_peripheral_immune_response_to_SARS_CoV_2_infection.h5ad) in H5AD format
+
+
+
+
 
 ## Procedure
 * Run `data/Pre-processing_pcHiC.ipynb` to prepare everything needed for pcHiC evidence.
