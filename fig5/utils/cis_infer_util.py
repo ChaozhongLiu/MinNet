@@ -126,7 +126,7 @@ def hierarchical_based_pseudo(anndat, meta_size = 20):
 
 
 
-def pseudo_cell(rna, atac, use_rep='SiaNN', n_pseudocells=100, X_agg='mean'):
+def pseudo_cell(rna, atac, use_rep='model', n_pseudocells=100, X_agg='mean'):
     print("Clustering pseudocells...")
     if use_rep == 'paired':
         print("Paired mode engaged, clustering based on RNA dataset...")
@@ -138,7 +138,7 @@ def pseudo_cell(rna, atac, use_rep='SiaNN', n_pseudocells=100, X_agg='mean'):
         rna.obs["pseudocell"] = hierarchical_based_pseudo(rna, meta_size = meta_size)
         atac.obs["pseudocell"] = rna.obs["pseudocell"].to_numpy()
         
-    elif use_rep == 'SiaNN':
+    elif use_rep == 'model':
         print("Representation mode engaged, clustering based on combined %s embedding..."%(use_rep))
         combined = anndata.AnnData(
             obs=pd.concat([rna.obs.loc[:,['cell_type']], atac.obs.loc[:,['cell_type']]], join="inner"),
