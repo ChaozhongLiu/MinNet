@@ -8,7 +8,7 @@ from torch.autograd import Variable
 
 class SiamAtt(nn.Module):
 
-    def __init__(self, num_peaks, num_genes, label_num, dim1=256, dim2=32):
+    def __init__(self, num_peaks, num_genes, label_num, dim1=768, dim2=32):
         super().__init__()
         self.num_peaks = num_peaks
         self.num_genes = num_genes
