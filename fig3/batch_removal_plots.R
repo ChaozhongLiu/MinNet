@@ -10,10 +10,10 @@ safe_sd <- function(x) {
 }
 
 #color palette ----
-lvl_order <- c("SiaNN","GLUE","bindSC","Seurat v3",
+lvl_order <- c("MinNet","GLUE","bindSC","Seurat v3",
                "Liger")
 color_palette <- c(
-  "#7cef61", #SiaNN
+  "#7cef61", #MinNet
   "#d72628", #GLUE
   "#1f77b4", #bindSC
   "#9566bd", #seurat v3
@@ -24,20 +24,23 @@ group.colors <- readRDS('../fig2/color.palette.rds')
 #Silhouette score----
 sil_score_1 <- read.csv('../fig2/BMMC_data/results/silh_score.csv',stringsAsFactors = F)
 colnames(sil_score_1)[1] <- 'Method'
+sil_score_1[sil_score_1$Method == 'SiaNN','Method'] <- 'MinNet'
 sil_score_1[sil_score_1$Method == 'Seurat','Method'] <- 'Seurat v3'
-sil_score_1 <- sil_score_1[sil_score_1$Method %in% c('SiaNN','GLUE','Liger','Seurat v3','bindSC'),]
+sil_score_1 <- sil_score_1[sil_score_1$Method %in% c('MinNet','GLUE','Liger','Seurat v3','bindSC'),]
 sil_score_1$Method <- factor(sil_score_1$Method, levels = lvl_order)
 sil_score_1 <- sil_score_1[,c(1,2,4)]
 sil_score_1$Dataset <- '1 - Integration: s1d2 & s3d7'
 
 sil_score_2 <- read.csv('results/silh_score.s3s4.csv',stringsAsFactors = F)
 colnames(sil_score_2)[1] <- 'Method'
+sil_score_2[sil_score_2$Method == 'SiaNN','Method'] <- 'MinNet'
 sil_score_2[sil_score_2$Method == 'Seurat','Method'] <- 'Seurat v3'
 sil_score_2$Method <- factor(sil_score_2$Method, levels = lvl_order)
 sil_score_2$Dataset <- '2 - GEX:s3d7 & ATAC:s4d1'
 
 sil_score_3 <- read.csv('results/silh_score.s4s3.csv',stringsAsFactors = F)
 colnames(sil_score_3)[1] <- 'Method'
+sil_score_3[sil_score_3$Method == 'SiaNN','Method'] <- 'MinNet'
 sil_score_3[sil_score_3$Method == 'Seurat','Method'] <- 'Seurat v3'
 sil_score_3$Method <- factor(sil_score_3$Method, levels = lvl_order)
 sil_score_3$Dataset <- '3 - GEX:s4d1 & ATAC:s3d7'
@@ -86,12 +89,14 @@ gp #
 
 transfer_acc_2 <- read.csv('results/label_trasfer_acc.s3s4.csv',stringsAsFactors = F)[,c('method','total')]
 colnames(transfer_acc_2)[1] <- 'Method'
+transfer_acc_2[transfer_acc_2$Method == 'SiaNN','Method'] <- 'MinNet'
 transfer_acc_2[transfer_acc_2$Method == 'Seurat','Method'] <- 'Seurat v3'
 transfer_acc_2$Method <- factor(transfer_acc_2$Method, levels = lvl_order)
 transfer_acc_2$Dataset <- '1 - GEX:s3d7 & ATAC:s4d1'
 
 transfer_acc_3 <- read.csv('results/label_trasfer_acc.s4s3.csv',stringsAsFactors = F)[,c('method','total')]
 colnames(transfer_acc_3)[1] <- 'Method'
+transfer_acc_3[transfer_acc_3$Method == 'SiaNN','Method'] <- 'MinNet'
 transfer_acc_3[transfer_acc_3$Method == 'Seurat','Method'] <- 'Seurat v3'
 transfer_acc_3$Method <- factor(transfer_acc_3$Method, levels = lvl_order)
 transfer_acc_3$Dataset <- '2 - GEX:s4d1 & ATAC:s3d7'
@@ -166,8 +171,9 @@ lvl_label[24] <- 's3d7'
 group.colors.samp <- group.colors[names(group.colors) %in% lvl_label]
 umap_df$Label <- factor(umap_df$Label,
                         levels = names(group.colors.samp))
+umap_df[umap_df$method == 'SiaNN','method'] <- 'MinNet'
 umap_df[umap_df$method == 'Seurat','method'] <- 'Seurat v3'
-umap_df$method <- factor(umap_df$method, levels = c('SiaNN','GLUE','bindSC',
+umap_df$method <- factor(umap_df$method, levels = c('MinNet','GLUE','bindSC',
                                                     'Seurat v3','Liger'))
 
 gp <- ggplot(umap_df[,2:6], aes(x=UMAP_1, y=UMAP_2, color=Label)) +
@@ -177,8 +183,8 @@ gp <- ggplot(umap_df[,2:6], aes(x=UMAP_1, y=UMAP_2, color=Label)) +
   scale_color_manual(values=group.colors.samp)+
   guides(color = guide_legend(override.aes = list(size = 5, alpha=0.95)))+
   facet_grid(dataset ~ method, switch='y')
-  
-gp
+
+gp #
 
 
 # UMAP real case test s3s4 ----
@@ -220,8 +226,9 @@ lvl_label[23] <- 's4d1'
 group.colors.samp <- group.colors[names(group.colors) %in% lvl_label]
 umap_df$Label <- factor(umap_df$Label,
                         levels = names(group.colors.samp))
+umap_df[umap_df$method == 'SiaNN','method'] <- 'MinNet'
 umap_df[umap_df$method == 'Seurat','method'] <- 'Seurat v3'
-umap_df$method <- factor(umap_df$method, levels = c('SiaNN','GLUE','bindSC',
+umap_df$method <- factor(umap_df$method, levels = c('MinNet','GLUE','bindSC',
                                                     'Seurat v3','Liger'))
 
 gp <- ggplot(umap_df[,2:6], aes(x=UMAP_1, y=UMAP_2, color=Label)) +
@@ -274,8 +281,9 @@ lvl_label[23] <- 's3d7'
 group.colors.samp <- group.colors[names(group.colors) %in% lvl_label]
 umap_df$Label <- factor(umap_df$Label,
                         levels = names(group.colors.samp))
+umap_df[umap_df$method == 'SiaNN','method'] <- 'Minnet'
 umap_df[umap_df$method == 'Seurat','method'] <- 'Seurat v3'
-umap_df$method <- factor(umap_df$method, levels = c('SiaNN','GLUE','bindSC',
+umap_df$method <- factor(umap_df$method, levels = c('Minnet','GLUE','bindSC',
                                                     'Seurat v3','Liger'))
 
 gp <- ggplot(umap_df[,2:6], aes(x=UMAP_1, y=UMAP_2, color=Label)) +

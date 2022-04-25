@@ -1,4 +1,3 @@
-#setwd('/mnt/hdd/chaozhong/manuscript/fig2/')
 library(dplyr)
 library(ggplot2)
 library(pheatmap)
@@ -11,10 +10,10 @@ safe_sd <- function(x) {
 }
 
 #color palette ----
-lvl_order <- c("SiaNN","GLUE","bindSC","Seurat v3",
+lvl_order <- c("MinNet","GLUE","bindSC","Seurat v3",
                "Liger", "Liger (UMAP)","Online iNMF",
                "Online iNMF (UMAP)","Liger (UINMF)")
-color_palette <- c("#7cef61", #SiaNN
+color_palette <- c("#7cef61", #MinNet
                    "#d72628", #GLUE
                    "#1f77b4", #bindSC
                    "#9566bd", #seurat v3
@@ -42,19 +41,20 @@ meta_4 <- unique(meta_4$cell_type)
 meta_labels <- unique(c(meta_1,meta_2,meta_3,meta_4))
 meta_labels <- c(meta_labels, 'GEX', 'ATAC', 'ADT','s1d2','s3d7','s4d1','s4d8','s4d9')
 
-library(randomcoloR)
-n <- length(meta_labels) - 8
-group.colors <- distinctColorPalette(n)
-pie(rep(1,n), col=group.colors)
-group.colors <- c(group.colors, group.colors[1:8])
-names(group.colors) <- meta_labels
-
-saveRDS(group.colors, 'color.palette.rds')
+# library(randomcoloR)
+# n <- length(meta_labels) - 8
+# group.colors <- distinctColorPalette(n)
+# pie(rep(1,n), col=group.colors)
+# group.colors <- c(group.colors, group.colors[1:8])
+# names(group.colors) <- meta_labels
+# 
+# saveRDS(group.colors, 'color.palette.rds')
 group.colors <- readRDS('color.palette.rds')
 
 #silhouette score----
 sil_score_1 <- read.csv('BMMC_data/results/silh_score.csv',stringsAsFactors = F)
 colnames(sil_score_1)[1] <- 'Method'
+sil_score_1[sil_score_1$Method == 'SiaNN','Method'] <- 'MinNet'
 sil_score_1[sil_score_1$Method == 'LigerOnline','Method'] <- 'Online iNMF'
 sil_score_1[sil_score_1$Method == 'LigerOnline (UMAP)','Method'] <- 'Online iNMF (UMAP)'
 sil_score_1[sil_score_1$Method == 'Seurat','Method'] <- 'Seurat v3'
@@ -63,6 +63,7 @@ sil_score_1$Dataset <- '10X Multiome - 1'
 
 sil_score_2 <- read.csv('BMMC_test/results/silh_score.csv',stringsAsFactors = F)
 colnames(sil_score_2)[1] <- 'Method'
+sil_score_2[sil_score_2$Method == 'SiaNN','Method'] <- 'MinNet'
 sil_score_2[sil_score_2$Method == 'LigerOnline','Method'] <- 'Online iNMF'
 sil_score_2[sil_score_2$Method == 'LigerOnline (UMAP)','Method'] <- 'Online iNMF (UMAP)'
 sil_score_2[sil_score_2$Method == 'Seurat','Method'] <- 'Seurat v3'
@@ -71,6 +72,7 @@ sil_score_2$Dataset <- '10X Multiome - 2'
 
 sil_score_3 <- read.csv('Cite_data/results/silh_score.csv',stringsAsFactors = F)
 colnames(sil_score_3)[1] <- 'Method'
+sil_score_3[sil_score_3$Method == 'SiaNN','Method'] <- 'MinNet'
 sil_score_3[sil_score_3$Method == 'Liger','Method'] <- 'Liger (UINMF)'
 sil_score_3[sil_score_3$Method == 'LigerINMF','Method'] <- 'Liger'
 sil_score_3[sil_score_3$Method == 'Seurat','Method'] <- 'Seurat v3'
@@ -79,6 +81,7 @@ sil_score_3$Dataset <- 'Cite-seq - 1'
 
 sil_score_4 <- read.csv('Cite_data_2/results/silh_score.csv',stringsAsFactors = F)
 colnames(sil_score_4)[1] <- 'Method'
+sil_score_4[sil_score_4$Method == 'SiaNN','Method'] <- 'MinNet'
 sil_score_4[sil_score_4$Method == 'Liger','Method'] <- 'Liger (UINMF)'
 sil_score_4[sil_score_4$Method == 'LigerINMF','Method'] <- 'Liger'
 sil_score_4[sil_score_4$Method == 'Seurat','Method'] <- 'Seurat v3'
@@ -119,27 +122,93 @@ gp
 
 
 # ARI score ----
-ari_df <- read.csv('BMMC_data/results/ARI_score.csv')
-ari_df <- ari_df[ari_df$X.Cluster < 23,]
-ari_df <- ari_df[ari_df$X.Cluster > 7,]
+ari_df_1 <- read.csv('BMMC_data/results/ARI_score.csv', stringsAsFactors = F)
+ari_df_1 <- ari_df_1[ari_df_1$X.Cluster <= 25,]
+ari_df_1 <- ari_df_1[ari_df_1$X.Cluster > 7,]
+ari_df_1[ari_df_1$Method == 'SiaNN','Method'] <- 'MinNet'
+ari_df_1[ari_df_1$Method == 'Seurat','Method'] <- 'Seurat v3'
+ari_df_1$Method <- factor(ari_df_1$Method, levels = lvl_order)
 
-df_summarise <- ari_df %>%
+df_summarise_1 <- ari_df_1 %>%
   group_by(Method, X.Cluster) %>%
   summarise(
     ARI_score = mean(ARI)
   ) %>%
   as.data.frame()
+df_summarise_1$Dataset <- '10X Multiome - 1'
 
-p<-ggplot(df_summarise, aes(x=X.Cluster, y=ARI_score, group=Method)) +
-  geom_line(aes(color=Method))+
-  geom_point(aes(color=Method))
+
+ari_df_2 <- read.csv('BMMC_test/results/ARI_score.csv', stringsAsFactors = F)
+ari_df_2 <- ari_df_2[ari_df_2$X.Cluster <= 25,]
+ari_df_2 <- ari_df_2[ari_df_2$X.Cluster > 7,]
+ari_df_2[ari_df_2$Method == 'SiaNN','Method'] <- 'MinNet'
+ari_df_2[ari_df_2$Method == 'Seurat','Method'] <- 'Seurat v3'
+ari_df_2$Method <- factor(ari_df_2$Method, levels = lvl_order)
+
+df_summarise_2 <- ari_df_2 %>%
+  group_by(Method, X.Cluster) %>%
+  summarise(
+    ARI_score = mean(ARI)
+  ) %>%
+  as.data.frame()
+df_summarise_2$Dataset <- '10X Multiome - 2'
+
+ari_df_3 <- read.csv('Cite_data/results/ARI_score.csv', stringsAsFactors = F)
+ari_df_3 <- ari_df_3[ari_df_3$X.Cluster <= 25,]
+ari_df_3 <- ari_df_3[ari_df_3$X.Cluster > 7,]
+ari_df_3[ari_df_3$Method == 'SiaNN','Method'] <- 'MinNet'
+ari_df_3[ari_df_3$Method == 'Seurat','Method'] <- 'Seurat v3'
+ari_df_3[ari_df_3$Method == 'Liger(UINMF)','Method'] <- 'Liger (UINMF)'
+ari_df_3[ari_df_3$Method == 'LigerINMF','Method'] <- 'Liger'
+ari_df_3$Method <- factor(ari_df_3$Method, levels = lvl_order)
+
+df_summarise_3 <- ari_df_3 %>%
+  group_by(Method, X.Cluster) %>%
+  summarise(
+    ARI_score = mean(ARI)
+  ) %>%
+  as.data.frame()
+df_summarise_3$Dataset <- 'Cite-seq - 1'
+
+ari_df_4 <- read.csv('BMMC_data/results/ARI_score.csv', stringsAsFactors = F)
+ari_df_4 <- ari_df_4[ari_df_4$X.Cluster <= 25,]
+ari_df_4 <- ari_df_4[ari_df_4$X.Cluster > 7,]
+ari_df_4[ari_df_4$Method == 'SiaNN','Method'] <- 'MinNet'
+ari_df_4[ari_df_4$Method == 'Seurat','Method'] <- 'Seurat v3'
+ari_df_4[ari_df_4$Method == 'Liger','Method'] <- 'Liger (UINMF)'
+ari_df_4[ari_df_4$Method == 'LigerINMF','Method'] <- 'Liger'
+ari_df_4$Method <- factor(ari_df_4$Method, levels = lvl_order)
+
+df_summarise_4 <- ari_df_4 %>%
+  group_by(Method, X.Cluster) %>%
+  summarise(
+    ARI_score = mean(ARI)
+  ) %>%
+  as.data.frame()
+df_summarise_4$Dataset <- 'Cite-seq - 2'
+
+ARI_score <- rbind(df_summarise_1,df_summarise_2,df_summarise_3,df_summarise_4)
+#ARI_score[ARI_score$modality_score<0.95,'modality_score'] <- 0.95
+
+
+p<-ggplot(ARI_score, aes(x=X.Cluster, y=ARI_score, group=Method)) +
+  geom_line(aes(color=Method)) +
+  geom_point(aes(color=Method)) + 
+  scale_color_manual(name = "Method", 
+                     values = color_palette) + 
+  scale_x_continuous(name = "Number of Clusters") +
+  facet_wrap(~Dataset) +
+  scale_y_continuous(name = "Adjusted Rand Index") +
+  theme_bw()
 p
+
 
 
 
 #FOSCTTM score ----
 fos_score_1 <- read.csv('BMMC_data/results/foscttm_score.csv',stringsAsFactors = F)
 colnames(fos_score_1)[1] <- 'Method'
+fos_score_1[fos_score_1$Method == 'SiaNN','Method'] <- 'MinNet'
 fos_score_1[fos_score_1$Method == 'LigerOnline','Method'] <- 'Online iNMF'
 fos_score_1[fos_score_1$Method == 'LigerOnline (UMAP)','Method'] <- 'Online iNMF (UMAP)'
 fos_score_1[fos_score_1$Method == 'Seurat','Method'] <- 'Seurat v3'
@@ -149,6 +218,7 @@ fos_score_1$Dataset <- '10X Multiome'
 
 fos_score_2 <- read.csv('BMMC_test/results/foscttm_score.csv',stringsAsFactors = F)
 colnames(fos_score_2)[1] <- 'Method'
+fos_score_2[fos_score_2$Method == 'SiaNN','Method'] <- 'MinNet'
 fos_score_2[fos_score_2$Method == 'LigerOnline','Method'] <- 'Online iNMF'
 fos_score_2[fos_score_2$Method == 'LigerOnline (UMAP)','Method'] <- 'Online iNMF (UMAP)'
 fos_score_2[fos_score_2$Method == 'seurat','Method'] <- 'Seurat v3'
@@ -158,6 +228,7 @@ fos_score_2$Dataset <- '10X Multiome'
 
 fos_score_3 <- read.csv('Cite_data/results/foscttm_score.csv',stringsAsFactors = F)
 colnames(fos_score_3)[1] <- 'Method'
+fos_score_3[fos_score_3$Method == 'SiaNN','Method'] <- 'MinNet'
 fos_score_3[fos_score_3$Method == 'Liger','Method'] <- 'Liger (UINMF)'
 fos_score_3[fos_score_3$Method == 'LigerINMF','Method'] <- 'Liger'
 fos_score_3[fos_score_3$Method == 'Seurat','Method'] <- 'Seurat v3'
@@ -166,6 +237,7 @@ fos_score_3$Dataset <- 'Cite-seq'
 
 fos_score_4 <- read.csv('Cite_data_2/results/foscttm_score.csv',stringsAsFactors = F)
 colnames(fos_score_4)[1] <- 'Method'
+fos_score_4[fos_score_4$Method == 'SiaNN','Method'] <- 'MinNet'
 fos_score_4[fos_score_4$Method == 'Liger','Method'] <- 'Liger (UINMF)'
 fos_score_4[fos_score_4$Method == 'LigerINMF','Method'] <- 'Liger'
 fos_score_4[fos_score_4$Method == 'Seurat','Method'] <- 'Seurat v3'
@@ -206,6 +278,7 @@ gp
 # label transfer accuracy bar plot ----
 transfer_acc_1 <- read.csv('BMMC_data/results/label_trasfer_acc.csv',stringsAsFactors = F)[,c('method','total')]
 colnames(transfer_acc_1)[1] <- 'Method'
+transfer_acc_1[transfer_acc_1$Method == 'SiaNN','Method'] <- 'MinNet'
 transfer_acc_1[transfer_acc_1$Method == 'LigerOnline','Method'] <- 'Online iNMF'
 transfer_acc_1[transfer_acc_1$Method == 'LigerOnline (UMAP)','Method'] <- 'Online iNMF (UMAP)'
 transfer_acc_1[transfer_acc_1$Method == 'Seurat','Method'] <- 'Seurat v3'
@@ -216,6 +289,7 @@ transfer_acc_1$Dataset <- '10X Multiome - 1'
 
 transfer_acc_2 <- read.csv('BMMC_test/results/label_trasfer_acc.csv',stringsAsFactors = F)[,c('method','total')]
 colnames(transfer_acc_2)[1] <- 'Method'
+transfer_acc_2[transfer_acc_2$Method == 'SiaNN','Method'] <- 'MinNet'
 transfer_acc_2[transfer_acc_2$Method == 'LigerOnline','Method'] <- 'Online iNMF'
 transfer_acc_2[transfer_acc_2$Method == 'LigerOnline (UMAP)','Method'] <- 'Online iNMF (UMAP)'
 transfer_acc_2[transfer_acc_2$Method == 'Seurat','Method'] <- 'Seurat v3'
@@ -225,6 +299,7 @@ transfer_acc_2$Dataset <- '10X Multiome - 2'
 
 transfer_acc_3 <- read.csv('Cite_data/results/label_trasfer_acc.csv',stringsAsFactors = F)[,c('method','total')]
 colnames(transfer_acc_3)[1] <- 'Method'
+transfer_acc_3[transfer_acc_3$Method == 'SiaNN','Method'] <- 'MinNet'
 transfer_acc_3[transfer_acc_3$Method == 'Liger','Method'] <- 'Liger (UINMF)'
 transfer_acc_3[transfer_acc_3$Method == 'LigerINMF','Method'] <- 'Liger'
 transfer_acc_3[transfer_acc_3$Method == 'Seurat','Method'] <- 'Seurat v3'
@@ -233,6 +308,7 @@ transfer_acc_3$Dataset <- 'Cite-seq - 1'
 
 transfer_acc_4 <- read.csv('Cite_data_2/results/label_trasfer_acc.csv',stringsAsFactors = F)[,c('method','total')]
 colnames(transfer_acc_4)[1] <- 'Method'
+transfer_acc_4[transfer_acc_4$Method == 'SiaNN','Method'] <- 'MinNet'
 transfer_acc_4[transfer_acc_4$Method == 'Liger','Method'] <- 'Liger (UINMF)'
 transfer_acc_4[transfer_acc_4$Method == 'LigerINMF','Method'] <- 'Liger'
 transfer_acc_4[transfer_acc_4$Method == 'Seurat','Method'] <- 'Seurat v3'
@@ -274,6 +350,7 @@ gp
 transfer_acc <- read.csv('BMMC_data/results/label_trasfer_acc.csv',stringsAsFactors = F)
 colnames(transfer_acc)[1] <- 'Method'
 colnames(transfer_acc)[2] <- 'Total'
+transfer_acc[transfer_acc$Method == 'SiaNN','Method'] <- 'MinNet'
 transfer_acc[transfer_acc$Method == 'LigerOnline','Method'] <- 'Online iNMF'
 transfer_acc[transfer_acc$Method == 'LigerOnline (UMAP)','Method'] <- 'Online iNMF (UMAP)'
 transfer_acc[transfer_acc$Method == 'Seurat','Method'] <- 'Seurat v3'
@@ -303,6 +380,7 @@ transfer_acc_2 <- read.csv('BMMC_test/results/label_trasfer_acc.csv',
                          stringsAsFactors = F)
 colnames(transfer_acc)[1] <- 'Method'
 colnames(transfer_acc)[2] <- 'Total'
+transfer_acc[transfer_acc$Method == 'SiaNN','Method'] <- 'MinNet'
 transfer_acc[transfer_acc$Method == 'LigerOnline','Method'] <- 'Online iNMF'
 transfer_acc[transfer_acc$Method == 'LigerOnline (UMAP)','Method'] <- 'Online iNMF (UMAP)'
 transfer_acc[transfer_acc$Method == 'Seurat','Method'] <- 'Seurat v3'
@@ -361,6 +439,7 @@ gp
 transfer_acc <- read.csv('Cite_data/results/label_trasfer_acc.csv',stringsAsFactors = F)
 colnames(transfer_acc)[1] <- 'Method'
 colnames(transfer_acc)[2] <- 'Total'
+transfer_acc[transfer_acc$Method == 'SiaNN','Method'] <- 'MinNet'
 transfer_acc[transfer_acc$Method == 'Liger','Method'] <- 'Liger (UINMF)'
 transfer_acc[transfer_acc$Method == 'LigerINMF','Method'] <- 'Liger'
 transfer_acc[transfer_acc$Method == 'Seurat','Method'] <- 'Seurat v3'
@@ -387,6 +466,7 @@ df_summarise_3$Dataset <- 'Cite-seq - 1'
 transfer_acc <- read.csv('Cite_data_2/results/label_trasfer_acc.csv',stringsAsFactors = F)
 colnames(transfer_acc)[1] <- 'Method'
 colnames(transfer_acc)[2] <- 'Total'
+transfer_acc[transfer_acc$Method == 'SiaNN','Method'] <- 'MinNet'
 transfer_acc[transfer_acc$Method == 'Liger','Method'] <- 'Liger (UINMF)'
 transfer_acc[transfer_acc$Method == 'LigerINMF','Method'] <- 'Liger'
 transfer_acc[transfer_acc$Method == 'Seurat','Method'] <- 'Seurat v3'
@@ -441,10 +521,10 @@ gp2
 
 
 # UMAP visualization BMMC_val -----
-lvl_order <- c("SiaNN","GLUE","bindSC","Seurat v3",
+lvl_order <- c("MinNet","GLUE","bindSC","Seurat v3",
                "Liger","Online iNMF")
 color_palette <- c(
-  "#7cef61", #SiaNN
+  "#7cef61", #MinNet
   "#d72628", #GLUE
   "#1f77b4", #bindSC
   "#9566bd", #seurat v3
@@ -502,8 +582,8 @@ group.colors.samp <- group.colors[meta_labels %in% lvl_label]
 umap_df$Label <- factor(umap_df$Label,
                         levels = names(group.colors.samp))
 umap_df[umap_df$method == 'Seurat','method'] <- 'Seurat v3'
+umap_df[umap_df$method == 'SiaNN','method'] <- 'MinNet'
 umap_df[umap_df$method == 'LigerOnline','method'] <- 'Online iNMF'
-
 umap_df$method <- factor(umap_df$method, levels = lvl_order)
 
 gp <- ggplot(umap_df[,2:6], aes(x=UMAP_1, y=UMAP_2, color=Label)) +
@@ -519,7 +599,7 @@ gp # 25x11
 
 
 # UMAP visualization BMMC_test -----
-lvl_order <- c("SiaNN","GLUE","bindSC","Seurat v3",
+lvl_order <- c("MinNet","GLUE","bindSC","Seurat v3",
                "Liger","Online iNMF")
 color_palette <- c(
   "#7cef61", #SiaNN
@@ -582,6 +662,7 @@ group.colors.samp <- group.colors[meta_labels %in% lvl_label]
 umap_df$Label <- factor(umap_df$Label,
                         levels = names(group.colors.samp))
 
+umap_df[umap_df$method == 'SiaNN','method'] <- 'MinNet'
 umap_df[umap_df$method == 'Seurat','method'] <- 'Seurat v3'
 umap_df[umap_df$method == 'LigerOnline','method'] <- 'Online iNMF'
 umap_df$method <- factor(umap_df$method, levels = lvl_order)
@@ -599,7 +680,7 @@ gp
 
 
 # UMAP visualization Cite - 1 -----
-lvl_order <- c("SiaNN","bindSC","Seurat v3",
+lvl_order <- c("MinNet","bindSC","Seurat v3",
                "Liger","Liger (UINMF)")
 color_palette <- c(
   "#7cef61", #SiaNN
@@ -660,6 +741,7 @@ group.colors.samp <- group.colors[meta_labels %in% lvl_label]
 umap_df$Label <- factor(umap_df$Label,
                         levels = names(group.colors.samp))
 
+umap_df[umap_df$method == 'SiaNN','method'] <- 'MinNet'
 umap_df[umap_df$method == 'Seurat','method'] <- 'Seurat v3'
 umap_df[umap_df$method == 'Liger','method'] <- 'Liger (UINMF)'
 umap_df[umap_df$method == 'LigerINMF','method'] <- 'Liger'
@@ -674,12 +756,12 @@ gp <- ggplot(umap_df[,2:6], aes(x=UMAP_1, y=UMAP_2, color=Label)) +
   guides(color = guide_legend(ncol=1,override.aes = list(size = 5,alpha=0.95)))+
   facet_grid(dataset ~ method, switch='y')
 
-gp
+gp #21x11
 
 
 
 # UMAP visualization Cite - 2 -----
-lvl_order <- c("SiaNN","bindSC","Seurat v3",
+lvl_order <- c("MinNet","bindSC","Seurat v3",
                "Liger","Liger (UINMF)")
 color_palette <- c(
   "#7cef61", #SiaNN
@@ -740,6 +822,7 @@ group.colors.samp <- group.colors[meta_labels %in% lvl_label]
 umap_df$Label <- factor(umap_df$Label,
                         levels = names(group.colors.samp))
 
+umap_df[umap_df$method == 'SiaNN','method'] <- 'MinNet'
 umap_df[umap_df$method == 'Seurat','method'] <- 'Seurat v3'
 umap_df[umap_df$method == 'Liger','method'] <- 'Liger (UINMF)'
 umap_df[umap_df$method == 'LigerINMF','method'] <- 'Liger'

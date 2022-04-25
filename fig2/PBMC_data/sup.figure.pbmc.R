@@ -1,4 +1,3 @@
-setwd('/mnt/hdd/chaozhong/manuscript/fig2/PBMC_data/')
 library(dplyr)
 library(ggplot2)
 library(pheatmap)
@@ -11,11 +10,11 @@ safe_sd <- function(x) {
 }
 
 #color palette ----
-lvl_order <- c("SiaNN",
+lvl_order <- c("MinNet",
                "bindSC",
                "Seurat v3",
                "Liger")
-color_palette <- c("#7cef61", #SiaNN
+color_palette <- c("#7cef61", #MinNet
                    "#1f77b4", #bindSC
                    "#9566bd", #seurat v3
                    "#fe7f0b") #Liger
@@ -23,7 +22,8 @@ color_palette <- c("#7cef61", #SiaNN
 # Silhouette Score ----
 sil_score <- read.csv('results/silh_score.csv',stringsAsFactors = F)
 colnames(sil_score)[1] <- 'Method'
-sil_score[sil_score$Method == 'Seurat (UMAP)','Method'] <- 'Seurat v3'
+sil_score[sil_score$Method == 'SiaNN','Method'] <- 'MinNet'
+sil_score[sil_score$Method == 'Seurat','Method'] <- 'Seurat v3'
 sil_score$Method <- factor(sil_score$Method, levels = lvl_order)
 
 
@@ -60,7 +60,7 @@ gp
 fos_score <- read.csv('results/foscttm_score.csv',stringsAsFactors = F)
 colnames(fos_score)[1] <- 'Method'
 fos_score[fos_score$Method == 'Seurat','Method'] <- 'Seurat v3'
-fos_score[fos_score$Method == 'siaNN','Method'] <- 'SiaNN'
+fos_score[fos_score$Method == 'siaNN','Method'] <- 'MinNet'
 fos_score$Method <- factor(fos_score$Method, levels = lvl_order)
 
 df_summarise <- fos_score %>%
@@ -93,10 +93,10 @@ gp
 
 
 # label transfer accuracy heatmap ----
-#10X - 1
 transfer_acc <- read.csv('results/label_trasfer_acc.csv',stringsAsFactors = F)
 colnames(transfer_acc)[1] <- 'Method'
 colnames(transfer_acc)[2] <- 'Total'
+transfer_acc[transfer_acc$Method == 'SiaNN','Method'] <- 'MinNet'
 transfer_acc[transfer_acc$Method == 'Seurat','Method'] <- 'Seurat v3'
 transfer_acc$Method <- factor(transfer_acc$Method, levels = rev(lvl_order))
 
@@ -173,18 +173,19 @@ lvl_label[1:19] <- lvl_label[c(2:11,13:21)]
 lvl_label[20] <- 'GEX'
 lvl_label[21] <- 'ATAC'
 
-library(randomcoloR)
-n <- length(lvl_label)
-group.colors <- distinctColorPalette(n)
-pie(rep(1,n), col=group.colors)
-group.colors.bmmc <- readRDS('../color.palette.rds')
-group.colors[20] <- group.colors.bmmc['GEX']
-group.colors[21] <- group.colors.bmmc['ATAC']
-names(group.colors) <- lvl_label
-saveRDS(group.colors, 'color.palette.rds')
-
+# library(randomcoloR)
+# n <- length(lvl_label)
+# group.colors <- distinctColorPalette(n)
+# pie(rep(1,n), col=group.colors)
+# group.colors.bmmc <- readRDS('../color.palette.rds')
+# group.colors[20] <- group.colors.bmmc['GEX']
+# group.colors[21] <- group.colors.bmmc['ATAC']
+# names(group.colors) <- lvl_label
+# saveRDS(group.colors, 'color.palette.rds')
+group.colors <- readRDS('color.palette.rds')
 umap_df$Label <- factor(umap_df$Label,
                         levels = lvl_label)
+umap_df[umap_df$method == 'SiaNN','method'] <- 'MinNet'
 umap_df[umap_df$method == 'Seurat','method'] <- 'Seurat v3'
 umap_df$method <- factor(umap_df$method, levels = lvl_order)
 
@@ -196,7 +197,7 @@ gp <- ggplot(umap_df[,2:6], aes(x=UMAP_1, y=UMAP_2, color=Label)) +
   guides(color = guide_legend(ncol=1,override.aes = list(size = 5, alpha=0.95)))+
   facet_grid(dataset ~ method, switch='y')
 
-gp # 25x11
+gp #25x11
 
 
 
